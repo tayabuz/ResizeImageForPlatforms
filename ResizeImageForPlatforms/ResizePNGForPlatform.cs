@@ -1,14 +1,14 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using ImageMagick;
 
 public class ResizePNGForPlatform
 {
-    private const double HDPI = 2;
-    private const double XHDPI = 1.5;
+    private const double HDPI = 0.585;
+    private const double XHDPI = 0.772;
 
-    private const double RETINA = 1.5;
+    private const double RETINA = 0.772;
 
     private const double WVGA = 0.72;
     private const double WXGA = 0.78;
@@ -26,7 +26,7 @@ public class ResizePNGForPlatform
     }
     private static MagickImage Resize(double coefficient, MagickImage image)
     {
-        MagickImage imageCopy = image;
+        MagickImage imageCopy = (MagickImage) image.Clone();
         int heigth = (int)Math.Floor(imageCopy.Height * coefficient);
         int width = (int)Math.Floor(imageCopy.Width * coefficient);
         imageCopy.VirtualPixelMethod = VirtualPixelMethod.Transparent;
@@ -35,7 +35,7 @@ public class ResizePNGForPlatform
     }
     private static void SaveImages(Dictionary<MagickImage, string> dictionary)
     {
-        foreach (var element in dictionary)
+        foreach (KeyValuePair<MagickImage, string> element in dictionary)
         {
             element.Key.Write(element.Value);
         }
@@ -114,4 +114,3 @@ public class ResizePNGForPlatform
         SaveImages(resizedImages);
     }
 }
-
